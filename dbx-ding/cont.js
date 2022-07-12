@@ -6,6 +6,16 @@
   const DING_BUTTON_CLASS = "ding-button";
   const DING_FLAGS = ["# ding", "-- ding", "// ding"];
 
+  document.addEventListener("click", notif);
+  function notif() {
+    chrome.runtime.sendMessage({greeting: "hello"});
+    // chrome.notifications.create("NOTFICATION_ID", {
+    //   type: "basic",
+    //   title: "notification title",
+    //   message: "notification message",
+    // });
+  }
+
   let ids = {};
   let startLocation = getCurrentLocation();
 
