@@ -2,7 +2,7 @@
   const CELL_CLASS = "command-with-number";
   const COMMENT_CLASS = "cm-comment";
   const RESULTS_CLASS = "command-result-stats";
-  const DING_FLAG = "# ding";
+  const DING_FLAGS = ["# ding", "-- ding", "// ding"];
 
   let ids = {};
   let startLocation = getCurrentLocation();
@@ -22,7 +22,7 @@
       [...document.getElementsByClassName(CELL_CLASS)].forEach((cell) => {
         const hasDingFlag = [
           ...cell.getElementsByClassName(COMMENT_CLASS),
-        ].some((comment) => comment.textContent === DING_FLAG);
+        ].some((comment) => DING_FLAGS.includes(comment.textContent));
         if (hasDingFlag) {
           const resultStats = cell.querySelector(
             `.${RESULTS_CLASS}`
