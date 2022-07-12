@@ -2,14 +2,18 @@
   const CELL_CLASS = "command-with-number";
   const COMMENT_CLASS = "cm-comment";
   const RESULTS_CLASS = "command-result-stats";
+  const DING_BUTTON_ACTIVE_CLASS = "ding-button-active";
+  const DING_BUTTON_CLASS = "ding-button";
   const DING_FLAGS = ["# ding", "-- ding", "// ding"];
 
   let ids = {};
   let startLocation = getCurrentLocation();
 
+  addStyle();
   setInterval(scan, 250);
 
   function scan() {
+    insertButtons();
     if (getCurrentLocation() !== startLocation) {
       // The IDs are per notebook
       // If the user navigated to the notebook without full page reload we need to flush them
@@ -23,7 +27,10 @@
         const hasDingFlag = [
           ...cell.getElementsByClassName(COMMENT_CLASS),
         ].some((comment) => DING_FLAGS.includes(comment.textContent));
-        if (hasDingFlag) {
+        const dingButtonActive = cell.querySelector(
+          `.${DING_BUTTON_ACTIVE_CLASS}`
+        );
+        if (hasDingFlag || dingButtonActive) {
           const resultStats = cell.querySelector(
             `.${RESULTS_CLASS}`
           )?.textContent;
@@ -53,5 +60,24 @@
 
   function getCurrentLocation() {
     return window.location.href.split("/command/")[0];
+  }
+
+  function addStyle() {
+    const style = document.createElement("style");
+    style.innerHTML =
+      ".ding-button-active {color: var(--notebook-cell-button-active-color) !important;}";
+    document.head.appendChild(style);
+  }
+
+  function insertButtons() {
+    [...document.getElementsByClassName("command-buttons")].forEach((menu) => {
+      if (menu.getElementsByClassName(DING_BUTTON_CLASS).length === 0) {
+        const buttonWrapper = document.createElement("div");
+        const buttonHTML = `<a onclick="event.preventDefault();this.classList.toggle('${DING_BUTTON_ACTIVE_CLASS}');" href="#" role="button" class="${DING_BUTTON_CLASS} comment-button command-button" title="ding"><i aria-hidden="true" class="fa fa-bell fa-fw" style="text-align: center;"></i></a>`;
+        buttonWrapper.innerHTML = buttonHTML;
+        dingButton = buttonWrapper.firstChild;
+        menu.insertBefore(dingButton, menu.firstChild);
+      }
+    });
   }
 })();
