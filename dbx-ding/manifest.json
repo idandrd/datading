@@ -5,6 +5,7 @@
   "version": "1.0",
   "author": "Idan Dardikman",
 
+  "action": { "default_popup": "popup.html" },
   "permissions": ["notifications"],
   "background": { "service_worker": "background.js" },
 
