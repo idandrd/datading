@@ -6,7 +6,7 @@
   "author": "Idan Dardikman",
 
   "action": { "default_popup": "popup.html" },
-  "permissions": ["notifications"],
+  "permissions": ["notifications", "storage"],
   "background": { "service_worker": "background.js" },
 
   "icons": {
@@ -19,7 +19,11 @@
 
   "web_accessible_resources": [
     {
-      "resources": ["note.mp3"],
+      "resources": [
+        "sounds/classic.mp3",
+        "sounds/game.wav",
+        "sounds/scifi.wav"
+      ],
       "matches": ["https://*.cloud.databricks.com/*"]
     }
   ],
