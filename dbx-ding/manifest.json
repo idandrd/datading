@@ -5,6 +5,10 @@
   "version": "1.0",
   "author": "Idan Dardikman",
 
+  "action": { "default_popup": "popup.html" },
+  "permissions": ["notifications", "storage"],
+  "background": { "service_worker": "background.js" },
+
   "icons": {
     "16": "images/icons/16.png",
     "19": "images/icons/19.png",
@@ -15,7 +19,11 @@
 
   "web_accessible_resources": [
     {
-      "resources": ["note.mp3"],
+      "resources": [
+        "sounds/classic.mp3",
+        "sounds/game.wav",
+        "sounds/scifi.wav"
+      ],
       "matches": ["https://*.cloud.databricks.com/*"]
     }
   ],

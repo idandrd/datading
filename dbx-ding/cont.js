@@ -6,6 +6,8 @@
   const DING_BUTTON_CLASS = "ding-button";
   const DING_FLAGS = ["# ding", "-- ding", "// ding"];
 
+  function notif(resultStats) {}
+
   let ids = {};
   let startLocation = getCurrentLocation();
 
@@ -35,7 +37,7 @@
             `.${RESULTS_CLASS}`
           )?.textContent;
           if (resultStats && !(resultStats in ids)) {
-            play();
+            play(resultStats);
           }
         }
       });
@@ -51,11 +53,22 @@
     );
   }
 
-  function play() {
-    // https://stackoverflow.com/a/27496510/8924226
-    let url = chrome.runtime.getURL("note.mp3");
-    let a = new Audio(url);
-    a.play();
+  function play(resultStats) {
+    chrome.storage.local.get(
+      ["sound", "soundDisabled", "notificationDisabled"],
+      (result) => {
+        if (!result.soundDisabled) {
+          const sound = result.sound || "classic.mp3";
+          // https://stackoverflow.com/a/27496510/8924226
+          let url = chrome.runtime.getURL(`sounds/${sound}`);
+          let a = new Audio(url);
+          a.play();
+        }
+        if (!result.notificationDisabled) {
+          chrome.runtime.sendMessage({ resultStats });
+        }
+      }
+    );
   }
 
   function getCurrentLocation() {
