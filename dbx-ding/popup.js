@@ -32,7 +32,6 @@ document.getElementById(soundSwitchId).addEventListener("change", (event) => {
 document.getElementById(notificationSwitchId).addEventListener("change", (event) => {
   const notificationDisabled = !event.target.checked;
   chrome.storage.local.set({ notificationDisabled });
-  disableRadios(notificationDisabled);
 });
 
 function setSound(value) {
