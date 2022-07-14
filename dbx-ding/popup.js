@@ -1,15 +1,20 @@
 const soundRadioClass = "soundRadio";
 const soundSwitchId = "soundSwitch";
+const notificationSwitchId = "notificationSwitch";
 
-chrome.storage.local.get(["sound", "soundEnabled"], function (result) {
+chrome.storage.local.get(["sound", "soundDisabled", "notificationDisabled"], function (result) {
   const sound = result.sound || "classic.mp3";
   const radio = document.getElementById(sound);
   if (radio) radio.checked = true;
 
-  const soundEnabled = result.soundEnabled;
+  const soundDisabled = result.soundDisabled;
   const soundSwitch = document.getElementById(soundSwitchId);
-  if (soundSwitch) soundSwitch.checked = soundEnabled;
-  disableRadios(soundEnabled);
+  if (soundSwitch) soundSwitch.checked = !soundDisabled;
+  disableRadios(soundDisabled);
+  
+  const notificationDisabled = result.notificationDisabled
+  const notificationSwitch = document.getElementById(notificationSwitchId);
+  if (notificationSwitch) notificationSwitch.checked = !notificationDisabled;
 });
 
 [...document.getElementsByClassName(soundRadioClass)].forEach((radio) =>
@@ -19,17 +24,23 @@ chrome.storage.local.get(["sound", "soundEnabled"], function (result) {
 );
 
 document.getElementById(soundSwitchId).addEventListener("change", (event) => {
-  const soundEnabled = event.target.checked;
-  chrome.storage.local.set({ soundEnabled });
-  disableRadios(soundEnabled);
+  const soundDisabled = !event.target.checked;
+  chrome.storage.local.set({ soundDisabled });
+  disableRadios(soundDisabled);
+});
+
+document.getElementById(notificationSwitchId).addEventListener("change", (event) => {
+  const notificationDisabled = !event.target.checked;
+  chrome.storage.local.set({ notificationDisabled });
+  disableRadios(notificationDisabled);
 });
 
 function setSound(value) {
   chrome.storage.local.set({ sound: value });
 }
 
-function disableRadios(soundEnabled) {
+function disableRadios(soundDisabled) {
   [...document.getElementsByClassName(soundRadioClass)].forEach(
-    (radio) => (radio.disabled = !soundEnabled)
+    (radio) => (radio.disabled = soundDisabled)
   );
 }

@@ -1,9 +1,8 @@
-chrome.runtime.onMessage.addListener((message, callback) => {
-  // alert('yo')
-  chrome.notifications.create("NOTFICATION_ID", {
-      type: "basic",
-      title: "notification title",
-      message: "notification message",
-      iconUrl: "images/icons/38.png"
-    });
+chrome.runtime.onMessage.addListener(({ resultStats }) => {
+  chrome.notifications.create(resultStats, {
+    type: "basic",
+    title: "Databricks Cell Run Complete",
+    message: resultStats,
+    iconUrl: "images/icons/38.png",
+  });
 });
