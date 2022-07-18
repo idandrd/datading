@@ -1,2 +1,2 @@
-# dbx-ding
-Plays a sound whenever a data-bricks cell run is done
+# datading 🔔
+Plays a sound whenever a databricks cell run is done
