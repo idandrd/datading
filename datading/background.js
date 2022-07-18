@@ -7,7 +7,7 @@ chrome.runtime.onMessage.addListener(({ resultStats }, sender) => {
       type: "basic",
       title: "Databricks Cell Run Complete",
       message: resultStats,
-      iconUrl: "images/icons/38.png",
+      iconUrl: "images/notif.png",
     },
     (notificationId) => {
       notications[notificationId] = {
