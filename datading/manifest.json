@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "datading",
-  "description": "Plays a sound whenever a databricks cell run is done. Add a '# ding' comment to the cell to make it ding.",
+  "description": "Plays a sound whenever a databricks cell run is done. Add a '# ding' comment to the cell to make it ding. Open source",
   "version": "1.1",
   "author": "Idan Dardikman",
 
